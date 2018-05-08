@@ -17,7 +17,7 @@
                 document.getElementById("test").innerHTML = xmlhttp.responseText;
             }
         }
-        xmlhttp.open("POST", "user/demo", true);
+        xmlhttp.open("POST", "user/showUser", true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.send("id=1");
     }

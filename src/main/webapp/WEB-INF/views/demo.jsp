@@ -12,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <base href="<%=basePath%>"/>
+    <%--<base href="<%=basePath%>"/>--%>
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>SpringMVC Demo 首页</title>
 
@@ -143,7 +143,6 @@
         $("#page_btn6").text(currentPage + 2);
         $("#page_btn7").text(pageNum);
 
-
         $("#page_btn4").css("background-color", "#4f90fb");
         $("#page_btn4").css("border", "1px solid #ddd");
         $("#page_btn4").css("color", "#fff");
@@ -191,6 +190,9 @@
             $("#page_btn6").hide();
         }
     });
+    $(function () {
+
+    });
 </script>
 <script type="text/javascript">
     /**
@@ -199,16 +201,9 @@
     function Clickpage(obj) {
         var currentPage = document.getElementById(obj).innerText;//得到当前页数
         currentP = parseInt(currentPage);//得到的文本转成int
-        $.ajax({
-            async: false,
-            url: "<%=basePath%>user/getnews",
-            type: "get",
-            data: {"page": currentP, "pageCount": 10},
-            dataType: 'text',
-            success: function (result) {
+        <%--window.reload("<%=basePath%>user/getnews/"+currentP+"/"+10);--%>
+        $.get("<%=basePath%>user/getnews/", {"page": currentP, "pageCount": 10});
 
-            }
-        });
     }
 
     /**

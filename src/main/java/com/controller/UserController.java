@@ -8,6 +8,7 @@ import com.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -83,8 +84,23 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getnews", method = RequestMethod.GET)
-    public String getNews(@RequestParam("page") int page, @RequestParam("pageCount") int pageCount, ModelMap modelMap, HttpSession httpSession) {
-
+    public String getNews(@RequestParam("page") int page, @RequestParam("pageCount") int pageCount, ModelMap modelMap) {
+        List<Hefei_bbs> Domainlist = new ArrayList<>();
+//        heFei_bbsService.hefei_BBs();
+        int pageFirst = (page-1) * pageCount ;
+        Domainlist = heFei_bbsService.QueryNews(pageFirst, pageCount);
+        int pageNum = heFei_bbsService.QueryPageCount();
+        pageNum = pageNum / 10 + 1;
+        modelMap.addAttribute("rows", Domainlist);
+        modelMap.addAttribute("page", page);
+        modelMap.addAttribute("pageCount", pageNum);
+        modelMap.addAttribute("shoudao", "翻页完成");
+        return "demo";
+    }
+   /* @RequestMapping(value = "/getnews", method = RequestMethod.GET)
+    public void getNews(@RequestParam("page") int page, @RequestParam("pageCount") int pageCount, ModelMap modelMap, HttpServletRequest request,HttpServletResponse response)throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         List<Hefei_bbs> Domainlist = new ArrayList<>();
 //        heFei_bbsService.hefei_BBs();
         int pageFirst = (page-1) * pageCount ;
@@ -94,8 +110,10 @@ public class UserController {
         modelMap.addAttribute("rows", Domainlist);
         modelMap.addAttribute("page", page);
         modelMap.addAttribute("pageCount", pageNum);
-        return "demo";
-    }
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().write(mapper.writeValueAsString(modelMap));
+        response.getWriter().close();
+    }*/
 
     @RequestMapping(value = "/UpAndDownPage", method = RequestMethod.GET)
     public String UpAndDownPage(@RequestParam("page") int page, @RequestParam("pageCount") int pageCount, @RequestParam("param") int param, ModelMap modelMap) {
@@ -116,6 +134,7 @@ public class UserController {
         modelMap.addAttribute("rows", Domainlist);
         modelMap.addAttribute("page", page);
         modelMap.addAttribute("pageCount", pageNum);
+        modelMap.addAttribute("shoudao", "操作完成");
         return "demo";
     }
 
